@@ -51,7 +51,7 @@ pip install -r requirements.txt
 
 ## Running SGCAST
 
-Edit `config.py` according to the data input (See Arguments section for more details).
+Edit `Config.py` according to the data input (See Arguments section for more details).
 
 In terminal, run
 
@@ -73,19 +73,15 @@ The script `config.py` indicate the arguments for scJoint, which needs to be mod
 + `threads`: Number of threads used (set as 1 by default)
 
 + `batch_size`: Batch size (set as 256 by default)
-+ `lr_stage1`: Learning rate for stage 1
++ `lr_start`: Initial learning rate 
 + `lr_stage3`: Learning rate for stage 3
-+ `lr_decay_epoch`: Number of epoch learning rate decay
-+ `epochs_stage1`: Number of epochs for stage 1
-+ `epochs_stage3`: Number of epochs for stage 3
-+ `p`: The fraction of data pairs expected to have high cosine similarity scores (set as 0.8 by default)
-+ `embedding_size`: Number of nodes in the embedding (hidden) layer (set as 64 by default)
-+ `momentum`: Momentum for SGD (set as 0.9 by default)
-+ `center_weight`: The weight for center loss (set as 1 by default)
-+ `with_crossentorpy`: `True` indicates well differentiated cell type mode, `False` indicates to run trajectory mode of scJoint.
-+ `seed`: seed to be used (set as none by default)
++ `lr_decay_epoch`: Number of epochs learning rate decay
++ `nfeat`: Dimension of input of auto-encoder
++ `nhid`: Dimension of hidden layer of auto-encoder
++ `nemb`: Dimension of latent embedding of auto-encoder
++ `seed`: seed to be used
 
-The configuration we used in our paper can be found in [link](https://github.com/sydneybiox/scJoint/blob/main/tutorial/config_notes.ipynb).
+The configuration we used in our paper can be found in [link](https://github.com/cuhklinlab/SGCAST/blob/main/SGCAST/Config.py).
 
 
 
