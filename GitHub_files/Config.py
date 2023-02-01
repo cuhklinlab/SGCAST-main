@@ -36,7 +36,7 @@ class Config(object):
           if DT == 'stereo_mouse_bulb': 
             self.spot_paths = ["/lustre/project/Stat/s1155077016/spatial_data/Stereo-seq/Stereo-seq.h5ad"]
             
-            self.train_conexp_ratio = 0.07 
+            self.train_conexp_ratio = 0.02 
             self.train_conspa_ratio = 0.02
             self.test_conexp_ratio = 0.07 
             self.test_conspa_ratio = 0.07 
@@ -44,7 +44,7 @@ class Config(object):
           if DT == 'seq-scope': 
             self.spot_paths = ['/lustre/project/Stat/s1155077016/spatial_data/scope_colon/scope_colon.h5ad']
             
-            self.train_conexp_ratio = 0.07
+            self.train_conexp_ratio = 0.04
             self.train_conspa_ratio = 0.04
             self.test_conexp_ratio = 0.07 
             self.test_conspa_ratio = 0.07 
@@ -58,7 +58,7 @@ class Config(object):
             self.train_conspa_ratio = 0.02
             self.test_conexp_ratio = 0.06 
             self.test_conspa_ratio = 0.06
-        # For low-resolution, it is fine to set all $/tau$ to 0.07. For high-resolution data, when training, low $/tau$ is preferred for smaller loss and faster convergence
+        # For low-resolution data, it is fine to set all $/tau$ to 0.07. For high-resolution data, when training, low $/tau$ is preferred for smaller loss and faster convergence
         # when writing result, using common 0.07 is okay. For embryo data, especially E16.5, the spots number is too large, we pick a bit smaller $/tau$ 0.06 .
                      
         # Training config
