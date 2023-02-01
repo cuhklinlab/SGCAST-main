@@ -38,7 +38,7 @@ torchvision==0.13.1
 tqdm==4.64.0
 umap-learn==0.5.3 
 ```
-### the location of R (used for the mclust clustering)
+### Install package mclust 5.4.10 in R (used for the mclust clustering)
 
 (**Recommended**) Using python virutal environment with conda（<https://anaconda.org/>）
 ```shell
