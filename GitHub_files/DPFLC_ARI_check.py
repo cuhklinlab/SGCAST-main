@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/lustre/project/Stat/s1155077016/SGCAST/SGCAST/SGCAST')
+sys.path.append('/user path to SGCAST')
 from utils.utils import refine
 import os
 import scanpy as sc
@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics.cluster import adjusted_rand_score
 
 ARIset=[]
-base_path = '/lustre/project/Stat/s1155077016/SGCAST/SGCAST/SGCAST/output'
+base_path = '/user path to output'
 IDs = ['151507','151508','151509','151510','151669','151670','151671','151672','151673','151674','151675','151676']
 for ID in IDs:
     file_name = "/lustre/project/Stat/s1155077016/spatial_data/"+ID+"/"+ID+".h5ad"
@@ -19,8 +19,8 @@ for ID in IDs:
     adata.obsm['embedding'] = np.float32(spots_embeddings)
     random_seed=2022
     np.random.seed(random_seed)
-    os.environ['R_HOME'] = "/users/s1155077016/anaconda3/envs/seurate4/lib/R"
-    os.environ['R_USER'] = '/users/s1155077016/anaconda3/lib/python3.9/site-packages/rpy2'
+    os.environ['R_HOME'] = "/Rpath/lib/R"
+    os.environ['R_USER'] = '/pythonpath/python3.9/site-packages/rpy2'
     import rpy2.robjects as robjects
 
     robjects.r.library("mclust")
@@ -31,11 +31,8 @@ for ID in IDs:
     r_random_seed = robjects.r['set.seed']
     r_random_seed(random_seed)
     rmclust = robjects.r['Mclust']
-    # emcontrol = robjects.r['emControl']
-    # em = emcontrol(itmax=60)
-    # Result = OriginMat[:,~np.all(OriginMat == 0, axis = 0)]
     num_cluster = 7; modelNames="EEE" #adata.X[:,~np.all(adata.X == 0, axis = 0)]
-    res = rmclust(rpy2.robjects.numpy2ri.numpy2rpy(adata.obsm['embedding']), num_cluster, modelNames) #adata.obsm[used_obsm] ,control=em
+    res = rmclust(rpy2.robjects.numpy2ri.numpy2rpy(adata.obsm['embedding']), num_cluster, modelNames) 
     mclust_res = np.array(res[-2])
 
     adata.obs['mclust'] = mclust_res
@@ -64,14 +61,14 @@ for ID in IDs:
 
     ARIset.append(ARI_ref)
     plt.rcParams["figure.figsize"] = (6, 3)
-    # sc.pl.embedding(adata, basis="spatial", color="louvain",s=6, show=False, title='AE_GCN')
+   
     sc.pl.spatial(adata, color=["refined_pred", "Ground Truth"], title=['SGCAST(ARI=%.2f)' % ARI_ref,
                                                                         "Manual annotation"])  # adata.obs["true"] = adata_processed.obs["true"]
     plt.savefig(os.path.join(base_path, ID+'_results.png'), bbox_inches="tight", dpi=600)  # pred.png avremb
     plt.axis('off')
     plt.close()
 """
-    sc.pp.neighbors(adata, use_rep='embedding') #,method='gauss'
+    sc.pp.neighbors(adata, use_rep='embedding')
     sc.tl.umap(adata)
 
     used_adata = adata[np.isin(adata.obs_names.values,obs_df.index.values),] #used_adata = adata[adata.obs['Ground Truth'] != 'nan',]
@@ -81,9 +78,5 @@ for ID in IDs:
     sc.pl.paga_compare(used_adata, legend_fontsize=10, frameon=False, size=20,
                        title=ID + '_SGCAST', legend_fontoutline=2, show=False, save=ID + '_com.png')
 """
-    #sc.pl.umap(adata, color=["refined_pred", "Ground Truth"], save=ID + '_gauss.png',  title=['SGCAST(ARI_ref=%.2f)'%ARI_ref, "Ground Truth"])
 
-    #sc.tl.paga(adata, groups='refined_pred')
-    #sc.pl.paga(adata, save=ID + '.png')
-    #sc.pl.paga_compare(adata, save=ID + '_com.png')
 print('ARI SET: ', ARIset)
