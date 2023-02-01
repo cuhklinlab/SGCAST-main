@@ -11,7 +11,7 @@ class Config(object):
         if self.use_cuda:
             self.device = torch.device('cuda:0')
         else:
-            self.device = torch.device('cuda:0')
+            print("please run using gpu")
 
         if DT == 'DFPLC':
             # DT info
