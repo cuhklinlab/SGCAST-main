@@ -58,8 +58,9 @@ class Config(object):
             self.train_conspa_ratio = 0.02
             self.test_conexp_ratio = 0.06 
             self.test_conspa_ratio = 0.06
-        # For low-resolution data, it is fine to set all $/tau$ to 0.07. For high-resolution data, when training, low $/tau$ is preferred for smaller loss and faster convergence
-        # when writing result, using common 0.07 is okay. For embryo data, especially E16.5, the spots number is too large, we pick a bit smaller $/tau$ 0.06 .
+        # For low-resolution data, it is fine to set all $/tau$ to 0.07, which is default setting in SGCAST. 
+        # For high-resolution data, when training, low $/tau$ is preferred for smaller loss and faster convergence.
+        # when writing results, using common 0.07 is okay. For embryo data, especially E16.5, the spots number is too large, we pick a bit smaller $/tau$ 0.06 .
                      
         # Training config
         self.nfeat = 50 
