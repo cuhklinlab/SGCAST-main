@@ -71,7 +71,6 @@ class Config(object):
         self.lr_times = 2
         self.lr_decay_epoch = 80 
         self.epochs_stage =100 
-        self.momentum = 0.9
         self.seed = 2022
         self.checkpoint = ''
 
