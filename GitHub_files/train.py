@@ -84,8 +84,8 @@ class Training():
 
             n = pdm_exp.shape[0]
             # self.exp = n * 2 * 960 # 2000
-            self.conexp_ratio = 0.07 #0.07 high resolution  0.02
-            self.conspa_ratio = 0.07 #0.07  high resolution 0.02
+            conexp_ratio =self.config.train_conexp_ratio #0.06 embryo  0.05 rest high-res
+            conspa_ratio = self.config.train_conspa_ratio
 
             # self.spa = n * 2 * 63
             res_exp = pdm_exp.masked_select(~torch.eye(n, dtype=bool).cuda())
@@ -99,10 +99,10 @@ class Training():
             # print("rt_Sd:", math.sqrt(resspa_var/resexp_var))
             res_exp = pdm_exp.masked_select(~torch.eye(n, dtype=bool).cuda())
             # print("quantile:",self.exp/n/(n-1))
-            key_exp = torch.quantile(res_exp,self.conexp_ratio,interpolation="nearest") #self.exp/n/(n-1)  'higher'
+            key_exp = torch.quantile(res_exp,conexp_ratio,interpolation="nearest") #self.exp/n/(n-1)  'higher'
             lexp = key_exp/math.sqrt((2*104))
             # print("keyexp:", key_exp)
-            key_spa = torch.quantile(res_spa, self.conspa_ratio,interpolation="nearest") #self.spa / n / (n - 1)  'higher'
+            key_spa = torch.quantile(res_spa, conspa_ratio,interpolation="nearest") #self.spa / n / (n - 1)  'higher'
             # print("keyspa:", key_spa)
             lspa = key_spa /math.sqrt((2 * 104))
             # print("lexp:", lexp)
@@ -198,8 +198,8 @@ class Training():
 
             n = pdm_exp.shape[0]
             # self.exp = n * 2 * 960 # 2000
-            conexp_ratio = 0.07 #0.06 embryo  0.05 rest high-res
-            conspa_ratio = 0.07 # 0.06  0.05
+            conexp_ratio = self.config.test_conexp_ratio #0.06 embryo  0.05 rest high-res
+            conspa_ratio = self.config.test_conspa_ratio # 0.06  0.05
             # print("conspa_ratio:", conspa_ratio)
             # self.spa = n * 2 * 63 # 64,65,66,67
             res_exp = pdm_exp.masked_select(~torch.eye(n, dtype=bool).cuda())
