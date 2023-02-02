@@ -71,19 +71,21 @@ The script `Config.py` indicate the arguments for SGCAST, which needs to be modi
 
 + `use_cuda`: Whether GPU is used
 + `threads`: Number of threads used (set as 1 by default)
-
++ `spot_paths`: paths of input data (can be multiple paths, which will be trained under the same configuration.)
 + `batch_size`: Batch size (set as 256 by default)
 + `lr_start`: Initial learning rate 
-+ `lr_stage3`: Learning rate for stage 3
 + `lr_decay_epoch`: Number of epochs learning rate decay
 + `nfeat`: Dimension of input of auto-encoder
 + `nhid`: Dimension of hidden layer of auto-encoder
 + `nemb`: Dimension of latent embedding of auto-encoder
 + `seed`: seed to be used
++ `train_conexp_ratio`: tau for expression layer in training 
++ `train_conspa_ratio`: tau for spatial layer in training
++ `train_conexp_ratio`: tau for expression layer when writing results
++ `train_conexp_ratio`: tau for spatial layer when writing results
+
 
 The configuration we used in our paper can be found in [link](https://github.com/cuhklinlab/SGCAST/blob/main/SGCAST/Config.py).
-When running SGCAST on the existing data, you only need to change 'DT' (data type)
-When running SGCAST on new data, change spot
 
 
 ## Reference
