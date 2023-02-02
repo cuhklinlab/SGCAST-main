@@ -1,0 +1,8 @@
+#!/bin/bash
+#SBATCH -J stere_embryo
+#SBATCH -N 1 -c 1
+#SBATCH --mem=100G
+#SBATCH -e stere_embryo_error_50.log
+#SBATCH -o stere_embryo_output_50.log
+
+singularity exec /SAW_path/SAW/SAW_v4.1.0.sif spatialCluster -i filename_bin1.gef -o filename_bin50.h5ad -s 50

@@ -1,0 +1,4 @@
+singularity exec /SAW_path/SAW/SAW_v4.1.0.sif gefTools bgef \
+-i /data_path/stereo_seq/Mouse_brain_Adult_GEM_bin1.tsv.gz \
+-o Mouse_brain_Adult_GEM_bin1.gef \
+-b 1
