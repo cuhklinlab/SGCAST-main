@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/user path to SGCAST')
+sys.path.append('/SGCAST_download_path/SGCAST')
 from utils.utils import refine
 import os
 import scanpy as sc
@@ -9,10 +9,10 @@ import matplotlib.pyplot as plt
 from sklearn.metrics.cluster import adjusted_rand_score
 
 ARIset=[]
-base_path = '/user path to output'
+base_path = '/SGCAST_download_path/SGCAST/output'
 IDs = ['151507','151508','151509','151510','151669','151670','151671','151672','151673','151674','151675','151676']
 for ID in IDs:
-    file_name = "/lustre/project/Stat/s1155077016/spatial_data/"+ID+"/"+ID+".h5ad"
+    file_name = "/data_path/"+ID+"/"+ID+".h5ad"
     adata = sc.read_h5ad(file_name)
 
     spots_embeddings = np.loadtxt(os.path.join(base_path, ID+'_embeddings.txt'))
