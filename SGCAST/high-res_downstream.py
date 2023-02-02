@@ -4,13 +4,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 import sys
-sys.path.append('/lustre/project/Stat/s1155077016/SGCAST/SGCAST/SGCAST')
+sys.path.append('/SGCAST_download_path/SGCAST')
 from utils.utils import refine_high
 import gseapy
-base_path = '/lustre/project/Stat/s1155077016/SGCAST/SGCAST/SGCAST/output'
+base_path = '/SGCAST_download_path/SGCAST/output'
 ID ='Stereo-seq'
 
-file_name = "/lustre/project/Stat/s1155077016/spatial_data/"+ID+"/"+ID+".h5ad"
+file_name = "/datapath/"+ID+"/"+ID+".h5ad"
 spots_embeddings = np.loadtxt(os.path.join(base_path, ID + '_embeddings.txt'))
 stage = ID
 adata = sc.read_h5ad(file_name)
