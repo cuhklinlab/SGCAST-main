@@ -64,7 +64,7 @@ The output will be saved in `./output` folder.
 
 ## Arguments
 
-The script `config.py` indicate the arguments for scJoint, which needs to be modified according to the data.
+The script `Config.py` indicate the arguments for SGCAST, which needs to be modified according to the data.
 
 
 ### Training config
@@ -82,7 +82,8 @@ The script `config.py` indicate the arguments for scJoint, which needs to be mod
 + `seed`: seed to be used
 
 The configuration we used in our paper can be found in [link](https://github.com/cuhklinlab/SGCAST/blob/main/SGCAST/Config.py).
-
+When running SGCAST on the existing data, you only need to change 'DT' (data type)
+When running SGCAST on new data, change spot
 
 
 ## Reference
