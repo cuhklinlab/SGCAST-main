@@ -69,7 +69,6 @@ The script `Config.py` indicate the arguments for SGCAST, which needs to be modi
 
 ### Training config
 
-+ `use_cuda`: Whether GPU is used
 + `threads`: Number of threads used (set as 1 by default)
 + `spot_paths`: paths of input data (can be multiple paths, which will be trained under the same configuration.)
 + `batch_size`: Batch size (set as 256 by default)
