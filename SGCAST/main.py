@@ -6,14 +6,15 @@ import numpy as np
 from Config import Config
 from train import Training
 import copy
-from torch.utils.tensorboard import SummaryWriter
+# from torch.utils.tensorboard import SummaryWriter # tensorboard used for recording loss converge 
+# remove comment for line 9 and 17 if you want check loss converge.
 
 def main():
     # initialization
     config = Config()
 
     for i in range(len(config.spot_paths)):
-        path = './tensorboard_'+ str(i)
+#         path = './tensorboard_'+ str(i)
         if not os.path.exists(path):
             os.makedirs(path)
         writer = SummaryWriter(path)
