@@ -71,15 +71,15 @@ The script `Config.py` indicate the arguments for SGCAST, which needs to be modi
 
 + `threads`: Number of threads used (set as 1 by default)
 + `spot_paths`: paths of input data (can be multiple paths, which will be trained under the same configuration.)
-+ `batch_size`: Batch size (set as 256 by default)
-+ `lr_start`: Initial learning rate 
++ `batch_size`: Batch size (set as 2000 by default)
++ `lr_start`: Initial learning rate (set as 0.2 by default)
 + `lr_decay_epoch`: Number of epochs learning rate decay
 + `nfeat`: Dimension of input of auto-encoder
 + `nhid`: Dimension of hidden layer of auto-encoder
 + `nemb`: Dimension of latent embedding of auto-encoder
 + `seed`: seed to be used
 + `train_conexp_ratio`: tau for expression layer in training 
-+ `train_conspa_ratio`: tau for spatial layer in training
++ `train_conspa_ratio`: tau for spatial layer in training 
 + `train_conexp_ratio`: tau for expression layer when writing results
 + `train_conexp_ratio`: tau for spatial layer when writing results
 
