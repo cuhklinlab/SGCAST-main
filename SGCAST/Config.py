@@ -6,12 +6,7 @@ class Config(object):
     def __init__(self):
         DT = 'DFPLC'  # 'stereo_mouse_bulb', 'seq-scope', 'stereo_embryo' change Data type before running.
         self.threads = 1
-
-
-        if self.use_cuda:
-            self.device = torch.device('cuda:0')
-        else:
-            print("please run using gpu")
+        self.device = torch.device('cuda:0')
 
         if DT == 'DFPLC':
             # DT info
@@ -33,15 +28,9 @@ class Config(object):
             self.test_conexp_ratio = 0.07 
             self.test_conspa_ratio = 0.07 
             
-          if DT == 'stereo_mouse_bulb': 
-            self.spot_paths = ["/lustre/project/Stat/s1155077016/spatial_data/Stereo-seq/Stereo-seq.h5ad"]
+ 
             
-            self.train_conexp_ratio = 0.02 
-            self.train_conspa_ratio = 0.02
-            self.test_conexp_ratio = 0.07 
-            self.test_conspa_ratio = 0.07 
-            
-          if DT == 'seq-scope': 
+        if DT == 'seq-scope': 
             self.spot_paths = ['/lustre/project/Stat/s1155077016/spatial_data/scope_colon/scope_colon.h5ad']
             
             self.train_conexp_ratio = 0.04
@@ -49,7 +38,7 @@ class Config(object):
             self.test_conexp_ratio = 0.07 
             self.test_conspa_ratio = 0.07 
             
-          if DT == 'stereo_embryo': 
+        if DT == 'stereo_embryo': 
             self.spot_paths = ['/datapath/stereo_E12/E12_FP200000587TR_D5_bin50.h5ad',
              '/datapath/stereo_E14/E14_SS200000108BR_C3C4_bin50.h5ad',
              '/datapath/stereo_E16/E16_SS200000124BR_D1D2_bin50.h5ad']
