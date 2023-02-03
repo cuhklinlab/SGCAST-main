@@ -15,7 +15,7 @@ organization and biological functions. SGCAST transforms information on gene exp
 
 ## Installation:
  
-SGCAST is implemented in the pytorch framework. Please run SGCAST on CUDA. The following packages are required to be able to run everything in this repository (included are the versions we used):
+SGCAST is implemented in the pytorch framework. Please run SGCAST on CUDA. The following packages in `requirements.txt` are required to be able to run everything in this repository (included are the versions we used):
 
 ```bash
 anndata==0.8.0 
