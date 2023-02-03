@@ -4,10 +4,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 import sys
-sys.path.append('/SGCAST_download_path/SGCAST')
+sys.path.append('/SGCAST_path')
 from utils.utils import refine_high
 import gseapy
-base_path = '/SGCAST_download_path/SGCAST/output'
+base_path = '/SGCAST_path/output'
 ID ='Stereo-seq'
 
 file_name = "/datapath/"+ID+"/"+ID+".h5ad"
@@ -15,7 +15,7 @@ spots_embeddings = np.loadtxt(os.path.join(base_path, ID + '_embeddings.txt'))
 stage = ID
 adata = sc.read_h5ad(file_name)
 adata.obsm['embedding'] = np.float32(spots_embeddings)
-n_neighbors = 30 
+n_neighbors = 30 # common setting: 9, 15, 25, 30
 sc.pp.neighbors(adata, use_rep='embedding', n_neighbors=n_neighbors) 
 resolution = 1.2  
 sc.tl.louvain(adata,  resolution=resolution)  
