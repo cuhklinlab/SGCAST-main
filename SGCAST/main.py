@@ -15,9 +15,9 @@ def main():
 
     for i in range(len(config.spot_paths)):
 #         path = './tensorboard_'+ str(i)
-        if not os.path.exists(path):
-            os.makedirs(path)
-        writer = SummaryWriter(path)
+#         if not os.path.exists(path):
+#             os.makedirs(path)
+#         writer = SummaryWriter(path)
         config_used = copy.copy(config)
         config_used.spot_paths = config.spot_paths[i]
         torch.manual_seed(config_used.seed)
@@ -33,8 +33,8 @@ def main():
         for epoch in range(config_used.epochs_stage):
             print('Epoch:', epoch)
             model_train.train(epoch)
-            writer.add_scalar('Loss/train', model_train.loss, epoch)
-            writer.add_scalar('lr', model_train.actual_lr, epoch)
+#             writer.add_scalar('Loss/train', model_train.loss, epoch)
+#             writer.add_scalar('lr', model_train.actual_lr, epoch)
 
         b = datetime.now()
         print('End time: ', b.strftime('%H:%M:%S'))
