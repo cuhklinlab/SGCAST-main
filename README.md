@@ -18,7 +18,7 @@ organization and biological functions. SGCAST transforms information on gene exp
 SGCAST is implemented in the pytorch framework. Please run SGCAST on CUDA. SGCAST can be obtained by clonning the github repository:
 
 ```
-git clone https://github.com/SydneyBioX/scJoint.git
+git clone https://github.com/cuhklinlab/SGCAST.git
 ```
 The following packages in `requirements.txt` are required to be able to run everything in this repository (included are the versions we used):
 
