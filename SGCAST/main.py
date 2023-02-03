@@ -7,7 +7,7 @@ from Config import Config
 from train import Training
 import copy
 # from torch.utils.tensorboard import SummaryWriter # tensorboard used for recording loss converge 
-# remove comment for line 9 and 17 if you want to check loss converge.
+
 
 def main():
     # initialization
