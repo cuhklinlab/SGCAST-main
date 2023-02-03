@@ -10,11 +10,10 @@ import math
 from sklearn.decomposition import PCA
 from Config import Config
 
+
 def Anndata_reader(file_name,dim,seed):
     pca = PCA(n_components=dim, svd_solver='arpack',random_state=seed)
     adata = sc.read_h5ad(file_name)
-    if  np.sum(adata.var['highly_variable'])<3000:
-        sc.pp.highly_variable_genes(adata, flavor="seurat", n_top_genes=3000)
 
     adata = adata[:, adata.var['highly_variable']]
     if issparse(adata.X):
@@ -60,24 +59,35 @@ class Dataloader(data.Dataset):
 class PrepareDataloader():
     def __init__(self, config):
         self.config = config
+        # hardware constraint
         kwargs = {'num_workers': 0, 'pin_memory': False} 
+
         self.sample_num = 0
+        self.batch_size = 0
 
         trainset = Dataloader(True, config.spot_paths, config.nfeat, config.seed)
         self.sample_num += len(trainset)
+        if (self.sample_num % config.batch_size) < (0.1*config.batch_size):
+            self.batch_size = config.batch_size + math.ceil((self.sample_num % config.batch_size)/(self.sample_num//config.batch_size))
+        else:
+            self.batch_size = config.batch_size
+
         train_loader = torch.utils.data.DataLoader(trainset, batch_size=
-            config.batch_size, shuffle=True,   **kwargs) 
+            self.batch_size, shuffle=True,   **kwargs) 
 
         testset = Dataloader(False, config.spot_paths, config.nfeat, config.seed)
         test_loader = torch.utils.data.DataLoader(testset, batch_size=
-            config.batch_size, shuffle=False, **kwargs)
+            self.batch_size, shuffle=False, **kwargs)
+
+
 
         self.train_loader = train_loader
         self.test_loader = test_loader
         print("sample_num :", self.sample_num)
+        print("batch_size :", self.batch_size)
 
     def getloader(self):
-        return self.train_loader, self.test_loader,  math.ceil(self.sample_num/self.config.batch_size)
+        return self.train_loader, self.test_loader,  math.ceil(self.sample_num/self.batch_size)
 
 
 
@@ -86,6 +96,6 @@ if __name__ == "__main__":
     spot_data = Dataloader(True, config.spot_paths)
     print('spot data:', spot_data.input_size,  len(spot_data.data))
 
-
-    train_loader, test_loader, num_iter = PrepareDataloader(config).getloader()
-
+    loader = PrepareDataloader(config)
+    train_loader, test_loader, num_iter = loader.getloader()
+    print('batch size:', loader.batch_size)
