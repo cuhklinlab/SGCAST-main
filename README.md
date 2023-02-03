@@ -27,7 +27,7 @@ numpy==1.21.5
 pandas==1.4.2
 python-igraph==0.9.6
 python-louvain==0.15
-ryp2==3.5.3
+rpy2==3.5.3
 scanpy==1.9.1 
 scikit-image==0.19.2
 scikit-learn==1.1.3
