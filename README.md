@@ -32,7 +32,7 @@ scikit-image==0.19.2
 scikit-learn==1.1.3
 scipy==1.7.3
 seaborn==0.11.2
-pytorch==1.12.1
+torch==1.12.1
 torch-geometric==1.7.0 
 torchvision==0.13.1
 tqdm==4.64.0
