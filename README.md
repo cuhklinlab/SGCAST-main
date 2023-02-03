@@ -20,7 +20,7 @@ SGCAST is implemented in the pytorch framework. Please run SGCAST on CUDA. SGCAS
 ```
 git clone https://github.com/cuhklinlab/SGCAST.git
 ```
-The following packages in `requirements.txt` are required to be able to run everything in this repository (included are the versions we used):
+The following packages in `requirements.txt` are required  (included are the versions we used):
 
 ```bash
 anndata==0.8.0 
