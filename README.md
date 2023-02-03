@@ -42,7 +42,7 @@ umap-learn==0.5.3
 
 (**Recommended**) Using python virutal environment with conda（<https://anaconda.org/>）
 ```shell
-conda create -n SGCAST python=3.9 pip
+conda create -n SGCAST python=3.9.12 pip
 conda activate SGCAST
 pip install -r requirements.txt
 ```
