@@ -4,11 +4,11 @@ import os
 
 class Config(object):
     def __init__(self):
-        DT = 'DFPLC'  # 'stereo_mouse_bulb', 'seq-scope', 'stereo_embryo' change Data type before running.
+        DT = 'DLPFC'  # 'DLPFC','stereo_mouse_bulb', 'seq-scope', 'stereo_embryo' change Data type before running.
         self.threads = 1
         self.device = torch.device('cuda:0')
 
-        if DT == 'DFPLC':
+        if DT == 'DLPFC':
             # DT info
             self.spot_paths = ["/lustre/project/Stat/s1155077016/spatial_data/151507/151507.h5ad",
              "/lustre/project/Stat/s1155077016/spatial_data/151508/151508.h5ad",
