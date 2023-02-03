@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/SGCAST_download_path/SGCAST')
+sys.path.append('/SGCAST_path')
 from utils.utils import refine
 import os
 import scanpy as sc
@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics.cluster import adjusted_rand_score
 
 ARIset=[]
-base_path = '/SGCAST_download_path/SGCAST/output'
+base_path = '/SGCAST_path/output'
 IDs = ['151507','151508','151509','151510','151669','151670','151671','151672','151673','151674','151675','151676']
 for ID in IDs:
     file_name = "/data_path/"+ID+"/"+ID+".h5ad"
