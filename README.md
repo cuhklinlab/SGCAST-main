@@ -25,7 +25,7 @@ git clone https://github.com/cuhklinlab/SGCAST.git
 
 (**Recommended**) Using python virutal environment with conda（<https://anaconda.org/>）
 ```shell
-conda create -n SGCAST python=3.9.12 pip
+conda create -n SGCAST python=3.9.12
 conda activate SGCAST
 pip install -r requirements.txt
 ```
