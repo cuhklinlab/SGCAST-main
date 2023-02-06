@@ -20,6 +20,15 @@ SGCAST is implemented in the pytorch framework. Please run SGCAST on CUDA. SGCAS
 ```
 git clone https://github.com/cuhklinlab/SGCAST.git
 ```
+
+### Install package mclust 5.4.10 in R (used for the mclust clustering)
+
+(**Recommended**) Using python virutal environment with conda（<https://anaconda.org/>）
+```shell
+conda create -n SGCAST python=3.9.12 pip
+conda activate SGCAST
+pip install -r requirements.txt
+```
 The following packages in `requirements.txt` are required  (included are the versions we used):
 
 ```bash
@@ -44,16 +53,6 @@ torchvision==0.13.1
 tqdm==4.64.0
 umap-learn==0.5.3 
 ```
-### Install package mclust 5.4.10 in R (used for the mclust clustering)
-
-(**Recommended**) Using python virutal environment with conda（<https://anaconda.org/>）
-```shell
-conda create -n SGCAST python=3.9.12 pip
-conda activate SGCAST
-pip install -r requirements.txt
-```
-
-
 
 ## Running SGCAST
 
