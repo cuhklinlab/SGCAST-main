@@ -23,26 +23,14 @@ git clone https://github.com/cuhklinlab/SGCAST.git
 
 ### Install package mclust 5.4.10 in R (used for the mclust clustering)
 
-(**Recommended**) Using python virutal environment with conda（<https://anaconda.org/>）
-```shell
-conda create -n SGCAST python=3.9.12
-conda activate SGCAST
-pip install -r requirements.txt
-```
-The following packages in `requirements.txt` are required  (included are the versions we used):
+## Versions the software has been tested on
+Environment 1:
+- System: Anaconda
+- gcc: 7.5.0
+- Python: 3.9.12
+- Python packages: anndata=0.8.0, joblib=1.1.0,matplotlib=3.5.1,numpy=1.21.5,pandas=1.4.2,rpy2=3.5.3,scanpy=1.9.1,scikit-learn=1.1.3,scipy=1.7.3,torch=1.12.1
 
-```bash
-anndata==0.8.0   
-joblib==1.1.0
-matplotlib==3.5.1 
-numpy==1.21.5
-pandas==1.4.2
-rpy2==3.5.3
-scanpy==1.9.1 
-scikit-learn==1.1.3
-scipy==1.7.3
-torch==1.12.1
-```
+
 
 ## Running SGCAST
 
