@@ -24,7 +24,6 @@ git clone https://github.com/cuhklinlab/SGCAST.git
 ### Install package mclust 5.4.10 in R (used for the mclust clustering)
 
 ## Versions of the software:
-Environment:
 - System: Anaconda
 - gcc: 7.5.0
 - Python: 3.9.12
