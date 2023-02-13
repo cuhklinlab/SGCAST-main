@@ -21,7 +21,7 @@ class Training():
 
 
         # initialize dataset
-        self.model = SGCAST(config.nfeat, config.nhid, config.nemb).cuda() #torch.nn.DataParallel()
+        self.model = SGCAST(config.nfeat, config.nhid, config.nemb).cuda() 
         self.actual_lr = 0.1
 
         # initialize optimizer 
