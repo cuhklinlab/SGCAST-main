@@ -107,12 +107,12 @@ class Training():
 
     def write_embeddings(self):
         self.model.eval()
-        if not os.path.exists("output/"):
-            os.makedirs("output/")
+        if not os.path.exists("output_exp/"):
+            os.makedirs("output_exp/")
         data_name = os.path.basename(self.config.spot_paths).split('.')[0]
         print("data name:", data_name)
 
-        fp_em = open('./output/' + data_name + '_embeddings.txt', 'w')
+        fp_em = open('./output_exp/' + data_name + '_embeddings_exp.txt', 'w')
         print("ready to write embeddings")
 
         batch_idx = 0
