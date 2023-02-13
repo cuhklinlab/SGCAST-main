@@ -74,7 +74,7 @@ class Training():
             pdm_exp = pdm_exp * math.sqrt(resspa_var/resexp_var)  + resspa_mean - resexp_mean
             res_exp = pdm_exp.masked_select(~torch.eye(n, dtype=bool).cuda())
             key_exp = torch.quantile(res_exp,conexp_ratio,interpolation="nearest") 
-            lexp = key_exp/math.sqrt((2*104))
+            lexp = key_exp/math.sqrt((2*104))  # torch.exp(-104) = 0 ; -104 is the m in paper.
             key_spa = torch.quantile(res_spa, conspa_ratio,interpolation="nearest") 
             lspa = key_spa /math.sqrt((2 * 104))
 
