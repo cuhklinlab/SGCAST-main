@@ -26,7 +26,6 @@ def main():
         a = datetime.now()
         print('Start time: ', a.strftime('%H:%M:%S'))
 
-        # stage1 training
         torch.cuda.reset_peak_memory_stats()
         print('Training start ')
         model_train = Training(config_used)
