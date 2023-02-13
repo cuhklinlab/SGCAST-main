@@ -25,7 +25,7 @@ housekeeping_genes = list(np.array(housekeeping_genes)[house_filter])
 
 
 housekeeping_genes = list(np.unique(housekeeping_genes))
-#'GAPDH','ARBP',,'HPRT1'
+
 marker_genes=['F3', 'C3', 'Omp', 'Gnal','Cnga2',  'Adcy3','Olfr78','Neurod1',
 'Omp','Neurog1','Ascl1','Gng8','Gap43','Ncam1','Omp','Ano2','Cngb1','Neurog1','Cnga4','Cnga2','Adcy3','Gnal','Krt5','Olfr50','Olfr632',
 'Hes5','Sox5','Wif1','Tubb3','Frzb','Ptn','Ptprz1','Sox10','Sema6a','Plp1','Nkd2','Nell2','Adgrg1','Tubb3','Dpysl3','Lypd6','Plp1']
@@ -55,11 +55,8 @@ df_matrix_marker=pd.DataFrame(mat2, index = marker_genes)
 
 
 def residual_average_gini_index(df_matrix_housekeeping, df_matrix_marker,folder_clusters,
-                                # housekeeping_genes, marker_genes,
                                 min_cells_per_cluster=10):
     # Subset from the main matrix the housekeeping genes and marker genes
-    # df_matrix_housekeeping = gene_scores.loc[gene_scores.index.intersection(housekeeping_genes),]
-    # df_matrix_marker= gene_scores.loc[gene_scores.index.intersection(marker_genes),]
     # Define a function to compute the Gini score
     def gini(list_of_values):
         sorted_list = sorted(list_of_values)
