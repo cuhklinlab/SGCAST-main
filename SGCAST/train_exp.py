@@ -7,7 +7,7 @@ import torch.optim as optim
 from dataloader_adjust import PrepareDataloader
 from utils.utils import *
 
-from SGCAST_clustering_exp import SGCAST #_exp _spa
+from SGCAST_clustering_exp import SGCAST 
 
 
 
@@ -21,7 +21,7 @@ class Training():
 
 
         # initialize dataset
-        self.model = SGCAST(config.nfeat, config.nhid, config.nemb).cuda() #torch.nn.DataParallel()
+        self.model = SGCAST(config.nfeat, config.nhid, config.nemb).cuda() 
         self.actual_lr = 0.1
 
         # initialize optimizer 
@@ -71,7 +71,7 @@ class Training():
             res_spa = pdm_spa.masked_select(~torch.eye(n, dtype=bool).cuda())
             resspa_mean = torch.mean(res_spa)
             resspa_var =  torch.var(res_spa)
-            pdm_exp = pdm_exp #* math.sqrt(resspa_var/resexp_var) + resspa_mean - resexp_mean  
+            pdm_exp = pdm_exp  
             res_exp = pdm_exp.masked_select(~torch.eye(n, dtype=bool).cuda())
             key_exp = torch.quantile(res_exp,conexp_ratio,interpolation="nearest") 
             lexp = key_exp/math.sqrt((2*104))
@@ -133,7 +133,7 @@ class Training():
             res_spa = pdm_spa.masked_select(~torch.eye(n, dtype=bool).cuda())
             resspa_mean = torch.mean(res_spa)
             resspa_var = torch.var(res_spa)
-            pdm_exp = pdm_exp# * math.sqrt(resspa_var / resexp_var)+ resspa_mean - resexp_mean # 
+            pdm_exp = pdm_exp 
             res_exp = pdm_exp.masked_select(~torch.eye(n, dtype=bool).cuda())
             key_exp = torch.quantile(res_exp,conexp_ratio,interpolation="nearest") 
             lexp = key_exp/math.sqrt((2*104))
@@ -146,13 +146,12 @@ class Training():
 
             spot_data = spot_data.cuda()
             # model forward
-            spot_embedding, _, _ = self.model(spot_data[:, :-2], pdm_exp, pdm_spa, lexp, lspa)# pdm)  #
+            spot_embedding, _, _ = self.model(spot_data[:, :-2], pdm_exp, pdm_spa, lexp, lspa)# pdm)  
             del pdm_spa; del pdm_exp; del spot_data
             spot_embedding = torch.squeeze(spot_embedding, 0).data.cpu().numpy()
 
             # write embeddings
             test_num, embedding_size = spot_embedding.shape[0], spot_embedding.shape[1]
-            # print("test num:", test_num)
             for print_i in range(test_num):
                 fp_em.write(str(spot_embedding[print_i][0]))
 
