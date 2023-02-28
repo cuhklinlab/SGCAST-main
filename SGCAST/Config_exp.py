@@ -1,3 +1,4 @@
+# The file is used for simplified version of SGCAST with the layer that captures gene expression similarity only.
 import torch
 import os
 
@@ -11,24 +12,24 @@ class Config(object):
 
         if DB == 'DLPFC':
             # DB info
-            self.spot_paths = ["/lustre/project/Stat/s1155077016/spatial_data/151507/151507.h5ad",
-             "/lustre/project/Stat/s1155077016/spatial_data/151508/151508.h5ad",
-             "/lustre/project/Stat/s1155077016/spatial_data/151509/151509.h5ad",
-             "/lustre/project/Stat/s1155077016/spatial_data/151510/151510.h5ad",
-             "/lustre/project/Stat/s1155077016/spatial_data/151669/151669.h5ad",
-             "/lustre/project/Stat/s1155077016/spatial_data/151670/151670.h5ad",
-             "/lustre/project/Stat/s1155077016/spatial_data/151671/151671.h5ad",
-             "/lustre/project/Stat/s1155077016/spatial_data/151672/151672.h5ad",
-             "/lustre/project/Stat/s1155077016/spatial_data/151673/151673.h5ad",
-             "/lustre/project/Stat/s1155077016/spatial_data/151674/151674.h5ad",
-             "/lustre/project/Stat/s1155077016/spatial_data/151675/151675.h5ad",
-             "/lustre/project/Stat/s1155077016/spatial_data/151676/151676.h5ad"]
+            self.spot_paths = ["/datapath/151507.h5ad",
+             "/datapath/151508.h5ad",
+             "/datapath/151509.h5ad",
+             "/datapath/151510.h5ad",
+             "/datapath/151669.h5ad",
+             "/datapath/151670.h5ad",
+             "/datapath/151671.h5ad",
+             "/datapath/151672.h5ad",
+             "/datapath/151673.h5ad",
+             "/datapath/151674.h5ad",
+             "/datapath/151675.h5ad",
+             "/datapath/151676.h5ad"]
 
 
 
 
             # Training config
-            self.nfeat = 30 #  mclust has problem on high-dimension embedding of expression layer only so we decrease it to 30.
+            self.nfeat = 30 #  mclust has problem on high-dimension embedding of expression layer only so we decrease it from 50 to 30.
             self.nhid = 30
             self.nemb = 30
             self.batch_size = 2000 
