@@ -20,13 +20,16 @@ def main():
 #         writer = SummaryWriter(path)
         config_used = copy.copy(config)
         config_used.spot_paths = config.spot_paths[i]
+        # set seed
         torch.manual_seed(config_used.seed)
         random.seed(config_used.seed)
         np.random.seed(config_used.seed)
+        # record start time
         a = datetime.now()
         print('Start time: ', a.strftime('%H:%M:%S'))
-
+        # reset GPU memory
         torch.cuda.reset_peak_memory_stats()
+        # start training
         print('Training start ')
         model_train = Training(config_used)
         for epoch in range(config_used.epochs_stage):
@@ -34,16 +37,17 @@ def main():
             model_train.train(epoch)
 #             writer.add_scalar('Loss/train', model_train.loss, epoch)
 #             writer.add_scalar('lr', model_train.actual_lr, epoch)
-
+        # record end time
         b = datetime.now()
         print('End time: ', b.strftime('%H:%M:%S'))
-        c = b - a
+        c = b - a 
         minutes = divmod(c.seconds, 60)
         print('Time used: ', minutes[0], 'minutes', minutes[1], 'seconds')
 
         print('Write embeddings')
         model_train.write_embeddings()
         print('Training finished: ', datetime.now().strftime('%H:%M:%S'))
+        # record GPU memory usage
         print("torch.cuda.max_memory_allocated: %fGB" % (torch.cuda.max_memory_allocated(0) / 1024 / 1024 / 1024))
 
     
