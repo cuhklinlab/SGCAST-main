@@ -1,3 +1,5 @@
+# This is the Symmetric Graph Convolutional Auto-encoder with only expression layer.
+
 import torch
 import torch.nn as nn
 import pandas as pd
@@ -45,13 +47,13 @@ class SGCAST(nn.Module):
     def forward_encoder(self, x, adj_exp, adj_spa):
         x = torch.Tensor(x).cuda()
         support = torch.mm(x, self.weight_exp) 
-        output = self.act(torch.spmm(adj_exp, support) + self.bias_exp_en)
+        output = self.act(torch.spmm(adj_exp, support) + self.bias_exp_en) # only expression layer and gene expression similarity used
         return output
 
     def forward_decoder(self, x, adj_exp, adj_spa):
         iden3 = (torch.eye(adj_exp.shape[0])*torch.Tensor([3])).cuda()
         support = torch.mm(x, torch.transpose(self.weight_exp, 0, 1)) 
-        output = self.act(torch.spmm((iden3-adj_exp), support) + self.bias_exp_de) 
+        output = self.act(torch.spmm((iden3-adj_exp), support) + self.bias_exp_de) # only expression layer and gene expression similarity used
         return output
 
     def loss_function(self, x,  pred): 
