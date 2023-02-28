@@ -66,6 +66,8 @@ for ID in IDs:
     ARI_ref
 
     ARIset.append(ARI_ref)
+    
+    # save results, one example is displayed in the tutorial.
     plt.rcParams["figure.figsize"] = (6, 3)
    
     sc.pl.spatial(adata, color=["refined_pred", "Ground Truth"], title=['SGCAST(ARI=%.2f)' % ARI_ref,
