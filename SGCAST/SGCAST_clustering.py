@@ -1,4 +1,5 @@
 # This is the main model of SGCAST, i.e. Symmetric Graph Convolutional Auto-encoder.
+
 import torch
 import torch.nn as nn
 import pandas as pd
