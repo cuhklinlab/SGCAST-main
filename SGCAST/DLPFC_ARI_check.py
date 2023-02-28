@@ -1,3 +1,5 @@
+# This file is used to do clustering on the embedding from DLPFC datasets (stored in '/SGCAST_path/output') and calculate ARI score afterwards.
+
 import sys
 sys.path.append('/SGCAST_path')
 from utils.utils import refine
@@ -12,7 +14,7 @@ ARIset=[]
 base_path = '/SGCAST_path/output'
 IDs = ['151507','151508','151509','151510','151669','151670','151671','151672','151673','151674','151675','151676']
 for ID in IDs:
-    file_name = "/data_path/"+ID+"/"+ID+".h5ad"
+    file_name = "/data_path/"+ID+".h5ad" 
     adata = sc.read_h5ad(file_name)
 
     spots_embeddings = np.loadtxt(os.path.join(base_path, ID+'_embeddings.txt'))
@@ -26,14 +28,15 @@ for ID in IDs:
     robjects.r.library("mclust")
 
     import rpy2.robjects.numpy2ri
-
+    # run mclust
     rpy2.robjects.numpy2ri.activate()
     r_random_seed = robjects.r['set.seed']
     r_random_seed(random_seed)
     rmclust = robjects.r['Mclust']
-    num_cluster = 7; modelNames="EEE" #adata.X[:,~np.all(adata.X == 0, axis = 0)]
+    num_cluster = 7; modelNames="EEE" 
     res = rmclust(rpy2.robjects.numpy2ri.numpy2rpy(adata.obsm['embedding']), num_cluster, modelNames) 
-    mclust_res = np.array(res[-2])
+    mclust_res = np.array(res[-2]) 
+    
 
     adata.obs['mclust'] = mclust_res
     adata.obs['mclust'] = adata.obs['mclust'].astype('int')
@@ -41,21 +44,24 @@ for ID in IDs:
 
 
     obs_df = adata.obs.dropna()
+    # calculate ARI score
     ARI = adjusted_rand_score(obs_df['mclust'], obs_df["Ground Truth"])
     ARI
-
+    
+    # refine clustering result
     from scipy.spatial.distance import cdist
     xarr=np.array([adata.obs['array_row'].tolist()]).T
     yarr=np.array([adata.obs['array_col'].tolist()]).T
     am = np.concatenate((xarr,yarr), 1)
     arr = cdist(am, am)
-
+    
     refined_pred=refine(sample_id=adata.obs.index.tolist(), pred=adata.obs["mclust"].tolist(), dis=arr, shape="hexagon")
     adata.obs["refined_pred"]=refined_pred
     adata.obs["refined_pred"]=adata.obs["refined_pred"].astype('category')
 
     adata.obs["refined_pred"]=adata.obs["refined_pred"].astype('category')
     obs_df = adata.obs.dropna()
+    # calculate ARI score for refined clustering result
     ARI_ref = adjusted_rand_score(obs_df['refined_pred'], obs_df["Ground Truth"])
     ARI_ref
 
