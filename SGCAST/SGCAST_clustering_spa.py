@@ -1,3 +1,5 @@
+# This is the Symmetric Graph Convolutional Auto-encoder with only spatial layer.
+
 import torch
 import torch.nn as nn
 import pandas as pd
@@ -43,13 +45,13 @@ class SGCAST(nn.Module):
     def forward_encoder(self, x, adj_exp, adj_spa):
         x = torch.Tensor(x).cuda()
         support = torch.mm(x, self.weight_spa)  
-        output = self.act(torch.spmm(adj_spa, support) + self.bias_spa_en)
+        output = self.act(torch.spmm(adj_spa, support) + self.bias_spa_en) # only spatial layer and spatial proximity used.
         return output
 
     def forward_decoder(self, x, adj_exp, adj_spa):
         support = torch.mm(x, torch.transpose(self.weight_spa, 0, 1))
         iden3 = (torch.eye(adj_spa.shape[0])*torch.Tensor([3])).cuda()
-        output = self.act(torch.spmm((iden3-adj_spa), support) + self.bias_spa_de)
+        output = self.act(torch.spmm((iden3-adj_spa), support) + self.bias_spa_de) # only spatial layer and spatial proximity used.
         return output
 
     def loss_function(self, x,  pred): # y
