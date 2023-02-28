@@ -1,3 +1,5 @@
+# The main file for SGCAST.
+
 import torch
 import os
 import random
