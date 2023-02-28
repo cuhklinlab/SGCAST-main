@@ -4,50 +4,51 @@ import numpy as np
 import pandas as pd
 import os
 import sys
-sys.path.append('/lustre/project/Stat/s1155077016/SGCAST/SGCAST/SGCAST')
+sys.path.append('/SGCAST_path')
 
 np.random.seed(2022)
-base_path = '/lustre/project/Stat/s1155077016/SGCAST/SGCAST/SGCAST/output'
-file_name= "/lustre/project/Stat/s1155077016/spatial_data/Stereo-seq/Stereo-seq.h5ad"
+base_path = '/SGCAST_path/output'
+file_name= "/datapath/Stereo-seq.h5ad"
 
 adata = sc.read_h5ad(file_name)
 all_genes = list(adata.var_names)
 all_genescap = [i.upper() for i in all_genes]
 housekeeping_genes=['RRN18S','GAPDH','ARBP','HPRT1','PGK1','PPIA','RPL13A','RPLP0','B2M','YWHAZ','SDHA','TFRC',
                     'Actb','Puf60','Psmd4','Chmp2a','Eif3f','Heatr3']
-# one more step to check wether all house genes in hvg
+# one more step to check wether all house genes in highly variable genes and remove those not in hvgs.
 housekeeping_genes = [i.upper() for i in housekeeping_genes]
 house_filter=[]
 for i in housekeeping_genes:
     house_filter.append(i in all_genescap)
 housekeeping_genes = list(np.array(housekeeping_genes)[house_filter])
-
-
-
 housekeeping_genes = list(np.unique(housekeeping_genes))
+
 
 marker_genes=['F3', 'C3', 'Omp', 'Gnal','Cnga2',  'Adcy3','Olfr78','Neurod1',
 'Omp','Neurog1','Ascl1','Gng8','Gap43','Ncam1','Omp','Ano2','Cngb1','Neurog1','Cnga4','Cnga2','Adcy3','Gnal','Krt5','Olfr50','Olfr632',
 'Hes5','Sox5','Wif1','Tubb3','Frzb','Ptn','Ptprz1','Sox10','Sema6a','Plp1','Nkd2','Nell2','Adgrg1','Tubb3','Dpysl3','Lypd6','Plp1']
+# from CellMarker
+
+# one more step to check wether all marker genes in highly variable genes and remove those not in hvgs.
 marker_genes = [i.upper() for i in marker_genes]
 marker_filter=[]
 for i in marker_genes:
     marker_filter.append(i in all_genescap)
 marker_genes = list(np.array(marker_genes)[marker_filter])
-
-
 marker_genes= list(np.unique(marker_genes))
-folder_clusters = '/lustre/project/Stat/s1155077016/SGCAST/SGCAST/SGCAST/stereo_mbulb_cluster'
 
+folder_clusters = '/folder that stores clusters (csv file) identified by each method for Stereo-seq mouse olfactory bulb'
 
+# get index of housekeeping genes and marker genes
 house_pos=[]
 for i in housekeeping_genes:
     house_pos.append(all_genescap.index(i))
-    # i in all_genescap
+
 marker_pos=[]
 for i in marker_genes:
     marker_pos.append(all_genescap.index(i))
-
+    
+# Subset from the main matrix the housekeeping genes and marker genes
 mat1 = np.transpose(adata.X[:,house_pos])
 df_matrix_housekeeping=pd.DataFrame(mat1, index = housekeeping_genes)
 mat2 = np.transpose(adata.X[:,marker_pos])
@@ -56,7 +57,7 @@ df_matrix_marker=pd.DataFrame(mat2, index = marker_genes)
 
 def residual_average_gini_index(df_matrix_housekeeping, df_matrix_marker,folder_clusters,
                                 min_cells_per_cluster=10):
-    # Subset from the main matrix the housekeeping genes and marker genes
+    
     # Define a function to compute the Gini score
     def gini(list_of_values):
         sorted_list = sorted(list_of_values)
@@ -121,7 +122,8 @@ def residual_average_gini_index(df_matrix_housekeeping, df_matrix_marker,folder_
                                            ignore_index=True)
     return df_metrics
 
+# run the function and save results in df_metrics
 df_metrics = residual_average_gini_index(df_matrix_housekeeping, df_matrix_marker,folder_clusters,
                                 min_cells_per_cluster=10)
-path_metrics = '/lustre/project/Stat/s1155077016/SGCAST/SGCAST/SGCAST/metrics'
-df_metrics.to_csv(path_metrics+'/stereo_clustering_RAGI_scores.csv')
+
+
