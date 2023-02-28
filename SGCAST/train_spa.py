@@ -1,3 +1,5 @@
+# Training file for simplified SGCAST with spatial layer only, the difference to train.py is the model imported from SGCAST_clustering_spa.
+
 import math
 
 import torch
@@ -7,7 +9,7 @@ import torch.optim as optim
 from dataloader_adjust import PrepareDataloader
 from utils.utils import *
 
-from SGCAST_clustering_spa import SGCAST 
+from SGCAST_clustering_spa import SGCAST # the difference from train.py
 
 
 
@@ -111,8 +113,9 @@ class Training():
             os.makedirs("output_spa/")
         data_name = os.path.basename(self.config.spot_paths).split('.')[0]
         print("data name:", data_name)
-
-        fp_em = open('./output_spa/' + data_name + '_embeddings_spa.txt', 'w')
+        
+        # change file name to tell the results from simplified SGCAST with spatial layer only
+        fp_em = open('./output_spa/' + data_name + '_embeddings_spa.txt', 'w') 
         print("ready to write embeddings")
 
         batch_idx = 0
