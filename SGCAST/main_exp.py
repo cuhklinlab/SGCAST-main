@@ -1,3 +1,5 @@
+# The main file for simplied version of SGCAST with expression layer only.
+
 import torch
 import os
 import random
