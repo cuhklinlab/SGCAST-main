@@ -1,8 +1,6 @@
 # SGCAST
 
-SGCAST is a simple and efficient framework for identifying spatial domains by encoding information of spatial location and gene expression to latent embeddings. SGCAST  can not only conduct accurate identification of spatial domains but also finish further extraction of
-spatially expressed genes, which are critical for understanding tissue
-organization and biological functions. SGCAST transforms information on gene expression and the position of spots into two adjacency matrices and adopts a symmetric graph convolutional auto-encoder to integrate them.
+SGCAST is a simple and efficient auto-encoder framework to identify spatial domains. SGCAST adopts a Symmetric Graph Convolutional Auto-encoder to learn aggregated latent embeddings via integrating the gene expression similarity and the proximity of the spatial spots. SGCAST employs a mini-batch training strategy, which makes SGCAST memory efficient and scalable to high-resolution spatial transcriptomic data with a large number of spots. The latent embeddings given by SGCAST can be used for clustering, data visualization, trajectory inference, and other downstream analyses.
 
 
 ## Tutorials
