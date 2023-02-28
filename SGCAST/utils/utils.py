@@ -101,7 +101,7 @@ def save_checkpoint(state, filename='checkpoint.pth.tar'):
     filename = directory + filename
     torch.save(state, filename)
 
-
+# refer to SpaGCN, use pd.DataFrame to do refinement
 def refine(sample_id, pred, dis, shape="hexagon"):
     refined_pred=[]
     if issparse(dis):
@@ -129,6 +129,7 @@ def refine(sample_id, pred, dis, shape="hexagon"):
             refined_pred.append(self_pred)
     return refined_pred
 
+# pd.DataFrame is highly memory-consuming, therefore for high-resolution data, we use np.bincount to do refinement.
 def refine_high( pred, dis, num=6, option = False): #shape="high"
     refined_pred=[]
     neigh_idx = dis.tolil().rows
