@@ -1,3 +1,5 @@
+# Training file for simplified SGCAST with expression layer only, the difference to train.py is the model imported from SGCAST_clustering_exp.
+
 import math
 
 import torch
@@ -7,7 +9,7 @@ import torch.optim as optim
 from dataloader_adjust import PrepareDataloader
 from utils.utils import *
 
-from SGCAST_clustering_exp import SGCAST 
+from SGCAST_clustering_exp import SGCAST # the difference from train.py
 
 
 
@@ -111,7 +113,7 @@ class Training():
             os.makedirs("output_exp/")
         data_name = os.path.basename(self.config.spot_paths).split('.')[0]
         print("data name:", data_name)
-
+        # change file name to tell the results from simplified SGCAST with expression layer only
         fp_em = open('./output_exp/' + data_name + '_embeddings_exp.txt', 'w')
         print("ready to write embeddings")
 
