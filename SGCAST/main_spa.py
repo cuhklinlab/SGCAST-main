@@ -1,3 +1,5 @@
+# The main file for simplied version of SGCAST with spatial layer only.
+
 import torch
 import os
 import random
