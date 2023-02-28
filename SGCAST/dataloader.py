@@ -1,3 +1,5 @@
+# This is the dataloader, which generates mini-batch for training and writing results.
+
 import torch
 import torch.utils.data as data
 import numpy as np
@@ -16,6 +18,7 @@ def Anndata_reader(file_name,dim,seed):
     adata = sc.read_h5ad(file_name)
     if  np.sum(adata.var['highly_variable'])<3000:
         sc.pp.highly_variable_genes(adata, flavor="seurat", n_top_genes=3000)
+    # If the number of hvg in h5ad file is smaller than 3000, the above method is used to select top 3000 genes.
         
 
     adata = adata[:, adata.var['highly_variable']]
@@ -24,7 +27,7 @@ def Anndata_reader(file_name,dim,seed):
     else:
         data = adata.X
     pca.fit(data)
-    data = pca.transform(data)
+    data = pca.transform(data) # get principal components
     x_pixel = np.array([adata.obsm['spatial'][:, 0].tolist()]).T
     y_pixel = np.array([adata.obsm['spatial'][:, 1].tolist()]).T
     print('ST data shape:', data.shape)
@@ -48,11 +51,7 @@ class Dataloader(data.Dataset):
         self.input_size, self.sample_num, self.data = read_from_file(
             data_path, dim, seed)
     def __getitem__(self, index):
-        if self.train:
             sample = np.array(self.data[index])  
-            return sample
-        else:
-            sample = np.array(self.data[index])
             return sample
 
     def __len__(self):
@@ -70,17 +69,18 @@ class PrepareDataloader():
 
         trainset = Dataloader(True, config.spot_paths, config.nfeat, config.seed)
         self.sample_num += len(trainset)
+        # adjust the size of mini-batch in case that the size of the last batch is too small which may lead biased results.
         if (self.sample_num % config.batch_size) < (0.1*config.batch_size):
             self.batch_size = config.batch_size + math.ceil((self.sample_num % config.batch_size)/(self.sample_num//config.batch_size))
         else:
             self.batch_size = config.batch_size
 
         train_loader = torch.utils.data.DataLoader(trainset, batch_size=
-            self.batch_size, shuffle=True,   **kwargs) 
+            self.batch_size, shuffle=True,   **kwargs) # mini-batches used for training are shuffled in this step.
 
         testset = Dataloader(False, config.spot_paths, config.nfeat, config.seed)
         test_loader = torch.utils.data.DataLoader(testset, batch_size=
-            self.batch_size, shuffle=False, **kwargs)
+            self.batch_size, shuffle=False, **kwargs) # mini-batches used for writing results are not shuffled.
 
 
 
