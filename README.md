@@ -5,7 +5,7 @@ SGCAST is a simple and efficient auto-encoder framework to identify spatial doma
 
 ## Tutorials
 
-+ Data preprocessing tutorial for each data and correcponding download address is demonstrated here: [link](https://github.com/cuhklinlab/SGCAST/blob/main/SGCAST/data_preprocess.ipynb)
++ Data preprocessing tutorial and correcponding download address is demonstrated here: [link](https://github.com/cuhklinlab/SGCAST/blob/main/SGCAST/data_preprocess.ipynb)
 + Tutorial for clustering: 
     + DLPFC dataset [link](https://github.com/cuhklinlab/SGCAST/blob/main/SGCAST/DLPFC_clustering.ipynb)
     + high-resolution data [link](https://github.com/cuhklinlab/SGCAST/blob/main/SGCAST/high-res_clustering.ipynb)
