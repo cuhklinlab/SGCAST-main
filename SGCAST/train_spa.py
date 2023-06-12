@@ -75,9 +75,9 @@ class Training():
             resspa_var =  torch.var(res_spa)
             pdm_exp = pdm_exp  
             res_exp = pdm_exp.masked_select(~torch.eye(n, dtype=bool).cuda())
-            key_exp = torch.quantile(res_exp,conexp_ratio,interpolation="nearest") 
+            key_exp = torch.quantile(res_exp,conexp_ratio,interpolation="higher") 
             lexp = key_exp/math.sqrt((2*104))
-            key_spa = torch.quantile(res_spa, conspa_ratio,interpolation="nearest") 
+            key_spa = torch.quantile(res_spa, conspa_ratio,interpolation="higher") 
             lspa = key_spa /math.sqrt((2 * 104))
 
             pdm_exp = pdm_exp.fill_diagonal_(0)
@@ -138,9 +138,9 @@ class Training():
             resspa_var = torch.var(res_spa)
             pdm_exp = pdm_exp 
             res_exp = pdm_exp.masked_select(~torch.eye(n, dtype=bool).cuda())
-            key_exp = torch.quantile(res_exp,conexp_ratio,interpolation="nearest") 
+            key_exp = torch.quantile(res_exp,conexp_ratio,interpolation="higher") 
             lexp = key_exp/math.sqrt((2*104))
-            key_spa = torch.quantile(res_spa, conspa_ratio,interpolation="nearest") 
+            key_spa = torch.quantile(res_spa, conspa_ratio,interpolation="higher") 
             lspa = key_spa /math.sqrt((2 * 104))
 
             pdm_exp = pdm_exp.fill_diagonal_(0)
