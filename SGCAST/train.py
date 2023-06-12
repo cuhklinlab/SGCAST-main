@@ -84,13 +84,13 @@ class Training():
             res_exp = pdm_exp.masked_select(~torch.eye(n, dtype=bool).cuda())
             
             # find the quantile (conexp_ratio) of distances in expression layer
-            key_exp = torch.quantile(res_exp,conexp_ratio,interpolation="nearest") 
+            key_exp = torch.quantile(res_exp,conexp_ratio,interpolation="higher") 
             
             # determine l in expression layer for this mini-batch
             lexp = key_exp/math.sqrt((2*104))  # torch.exp(-104) = 0 ; -104 is the largest integer.
             
             # find the quantile (conspa_ratio) of distances in spatial layer
-            key_spa = torch.quantile(res_spa, conspa_ratio,interpolation="nearest") 
+            key_spa = torch.quantile(res_spa, conspa_ratio,interpolation="higher") 
             
             # determine l in spatial layer for this mini-batch
             lspa = key_spa /math.sqrt((2 * 104))
@@ -157,9 +157,9 @@ class Training():
             resspa_var = torch.var(res_spa)
             pdm_exp = pdm_exp * math.sqrt(resspa_var / resexp_var) + resspa_mean - resexp_mean
             res_exp = pdm_exp.masked_select(~torch.eye(n, dtype=bool).cuda())
-            key_exp = torch.quantile(res_exp,conexp_ratio,interpolation="nearest") 
+            key_exp = torch.quantile(res_exp,conexp_ratio,interpolation="higher") 
             lexp = key_exp/math.sqrt((2*104))
-            key_spa = torch.quantile(res_spa, conspa_ratio,interpolation="nearest") 
+            key_spa = torch.quantile(res_spa, conspa_ratio,interpolation="higher") 
             lspa = key_spa /math.sqrt((2 * 104))
 
             pdm_exp = pdm_exp.fill_diagonal_(0)
