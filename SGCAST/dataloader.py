@@ -16,8 +16,8 @@ from Config import Config
 def Anndata_reader(file_name,dim,seed):
     pca = PCA(n_components=dim, svd_solver='arpack',random_state=seed)
     adata = sc.read_h5ad(file_name)
-    if  np.sum(adata.var['highly_variable'])<3000:
-        sc.pp.highly_variable_genes(adata, flavor="seurat", n_top_genes=3000)
+#     if  np.sum(adata.var['highly_variable'])<3000:
+#         sc.pp.highly_variable_genes(adata, flavor="seurat", n_top_genes=3000)
     # If the number of hvg in h5ad file is smaller than 3000, the above method is used to select top 3000 genes.
         
 
