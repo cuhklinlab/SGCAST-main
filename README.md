@@ -222,7 +222,7 @@ sc.pl.spatial(adata, color=["refined_pred", "Ground Truth"], title=['SGCAST(ARI=
 save_path = '../output'
 plt.savefig(os.path.join(save_path, f'{data_name}_domains.pdf'), bbox_inches='tight', dpi=300)
 ```
-## Three steps
+## Three steps when quick running in terminal
 ### Step 1 : Edit `Config.py` according to the data input (See Arguments section for more details).
 ### Step 2 : 
 
