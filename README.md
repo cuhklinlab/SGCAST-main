@@ -142,7 +142,7 @@ for i in range(len(config.spot_paths)):
     print('Training finished: ', datetime.now().strftime('%H:%M:%S'))
     print("torch.cuda.max_memory_allocated: %fGB" % (torch.cuda.max_memory_allocated(0) / 1024 / 1024 / 1024))
     # tell how much GPU memory used during training
-#### save path is "../output" by default, which you can change in train.py
+#### save path is "./output" by default, which you can change in train.py
 
 #####
 ##### Clustering using latent embeddings and calculate ARI
@@ -219,7 +219,7 @@ plt.rcParams["figure.figsize"] = (3, 3)
    
 sc.pl.spatial(adata, color=["refined_pred", "Ground Truth"], title=['SGCAST(ARI=%.2f)' % ARI_ref,
                                                                         "Manual annotation"]) 
-save_path = '../output'
+save_path = './output'
 plt.savefig(os.path.join(save_path, f'{data_name}_domains.pdf'), bbox_inches='tight', dpi=300)
 ```
 ## Three steps when quick running in terminal
@@ -230,7 +230,7 @@ In terminal, run
 ```
 python main.py
 ```
-The embedding output will be saved in `../output` folder.
+The embedding output will be saved in `./output` folder.
 
 ### Step 3 : Edit `DLPFC_ARI_check.py` for your file path, R path and ryp2 path
 ### Edit `high-res_downstream.py` for your file path, and louvain clustering parameters
@@ -242,7 +242,7 @@ or for high resolution data, run
 ```
 python high-res_downstream.py
 ``` 
-The plot output plot will be saved in `../output` folder.
+The plot output plot will be saved in `./output` folder.
 
 
 ## Arguments
