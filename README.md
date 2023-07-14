@@ -45,6 +45,7 @@ from train import Training
 import copy
 import scanpy as sc
 import matplotlib.pyplot as plt
+import pandas as pd
 
 ######
 ###### load and prepare input
