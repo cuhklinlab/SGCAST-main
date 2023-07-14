@@ -272,7 +272,7 @@ The configuration we used in our paper can be found in [link](https://github.com
 ### Download data
 |      Platform      |       Tissue     |    SampleID   |
 |:----------------:|:----------------:|:------------:|
-| [10x Visium](https://support.10xgenomics.com) | Human dorsolateral pre-frontal cortex (DLPFC) | [DLPFC dataset]((http://spatial.libd.org/spatialLIBD)) |
+| [10x Visium](https://support.10xgenomics.com) | Human dorsolateral pre-frontal cortex (DLPFC) | [DLPFC dataset](http://spatial.libd.org/spatialLIBD) |
 | [Stereo-seq](https://www.biorxiv.org/content/10.1101/2021.01.17.427004v2) | Mouse olfactory bulb| [Mouse olfactory bulb](https://github.com/JinmiaoChenLab/SEDR_analyses/) |
 | [Sec-scope](https://doi.org/10.1101/2021.01.25.427807) | Mouse Colon| [Mouse Colon](https://deepblue.lib.umich.edu/data/concern/data_sets/9c67wn05f) |
 | [Stereo-seq](https://www.biorxiv.org/content/10.1101/2021.01.17.427004v2) | Mouse Embryo| [Mouse Embryo](https://db.cngb.org/stomics/mosta/download/) |
