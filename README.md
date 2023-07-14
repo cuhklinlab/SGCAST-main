@@ -46,11 +46,11 @@ python main.py
 
 The output will be saved in `./output` folder.
 
-+ #### DeepST on DLPFC from 10x Visium.
-First, ``` cd /home/.../DeepST-main/deepst ```
++ #### SGCAST on DLPFC from 10x Visium.
+First, ``` cd /home/.../SGCAST/SGCAST```
 ```python
 import os 
-from DeepST import run
+from main import run
 import matplotlib.pyplot as plt
 from pathlib import Path
 import scanpy as sc
@@ -67,25 +67,19 @@ deepen = run(save_path = save_path,
 	use_gpu = True)
 ###### Read in 10x Visium data, or user can read in themselves.
 adata = deepen._get_adata(platform="Visium", data_path=data_path, data_name=data_name)
-###### Segment the Morphological Image
-adata = deepen._get_image_crop(adata, data_name=data_name) 
 
-###### Data augmentation. spatial_type includes three kinds of "KDTree", "BallTree" and "LinearRegress", among which "LinearRegress"
-###### is only applicable to 10x visium and the remaining omics selects the other two.
-###### "use_morphological" defines whether to use morphological images.
-adata = deepen._get_augment(adata, spatial_type="LinearRegress", use_morphological=True)
+
+
 
 ###### Build graphs. "distType" includes "KDTree", "BallTree", "kneighbors_graph", "Radius", etc., see adj.py
-graph_dict = deepen._get_graph(adata.obsm["spatial"], distType = "BallTree")
+
 
 ###### Enhanced data preprocessing
-data = deepen._data_process(adata, pca_n_comps = 200)
+
 
 ###### Training models
-deepst_embed = deepen._fit(
-		data = data,
-		graph_dict = graph_dict,)
-###### DeepST outputs
+
+###### SGCAST outputs
 adata.obsm["DeepST_embed"] = deepst_embed
 
 ###### Define the number of space domains, and the model can also be customized. If it is a model custom priori = False.
