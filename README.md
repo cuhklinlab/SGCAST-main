@@ -36,71 +36,208 @@ conda activate sgcast_env
 ## Running SGCAST on DLPFC from 10x Visium.
 ``` cd /home/.../SGCAST/SGCAST```
 ```python
-import os 
-from main import run
-import matplotlib.pyplot as plt
-from pathlib import Path
+import torch
+import os
+import random
+from datetime import datetime
+import numpy as np
+from train import Training 
+import copy
 import scanpy as sc
+import matplotlib.pyplot as plt
 
-data_path = "../data/DLPFC" #### to your path
-data_name = '151673' #### project name
-save_path = "../Results" #### save path
-n_domains = 7 ###### the number of spatial domains.
+######
+###### load and prepare input
+# load h5 file 
+input_dir = "../data/DLPFC/"
+section_id = '151673'
+adata = sc.read_visium(path=input_dir+section_id, count_file=section_id+'_filtered_feature_bc_matrix.h5')
+adata.var_names_make_unique()
+
+
+
+# step 1: select 3000 highly variable genes
+sc.pp.highly_variable_genes(adata, flavor="seurat_v3", n_top_genes=3000)
+# step 2: normalize each cell by total counts over all genes, so that every cell has the same total count after normalization
+sc.pp.normalize_total(adata, target_sum=1e4)
+# step 3: logarithmize the count matrix
+sc.pp.log1p(adata)
+# The true labels are extracted from data from R package 'spatialLIBD' and stored as “section_id_truth.txt”
+Ann_df = pd.read_csv(input_dir+section_id+"/"+section_id+"_truth.txt", sep='\t', header=None, index_col=0)
+
+Ann_df.columns = ['Ground Truth']
+# add 'Ground Truth' to adata
+adata.obs['Ground Truth'] = Ann_df.loc[adata.obs_names, 'Ground Truth']
+# draw the ground truth plot of the sample
+plt.rcParams["figure.figsize"] = (3, 3)
+sc.pl.spatial(adata, img_key="hires", color=["Ground Truth"])
+# save the processed adata to the path waiting for training
+adata.write(input_dir+section_id+'/'+section_id+'.h5ad')
+
+#####
+##### Prepare config and run training
+class Config(object): # we create a config class to include all paths and parameters 
+    def __init__(self):
+        self.use_cuda = True
+        self.threads = 1
+        self.device = torch.device('cuda:0')
+
+
+        self.spot_paths = ["../data/DLPFC/"+section_id+"/"+section_id+".h5ad"] 
+        # in spot_paths, there can be multiple paths and SGCAST will run on the data one by one
+        
+        # Training config
+        self.nfeat = 50 #30
+        self.nhid = 50
+        self.nemb = 50
+        self.batch_size = 2000  
+        self.lr_start = 0.2 
+        self.lr_times = 2
+        self.lr_decay_epoch = 80 
+        self.epochs_stage =100 
+        self.seed = 2022
+        self.checkpoint = ''
+        self.train_conexp_ratio = 0.07 
+        self.train_conspa_ratio = 0.07
+        self.test_conexp_ratio = 0.07 
+        self.test_conspa_ratio = 0.07 
+
+
+config = Config()
+
+for i in range(len(config.spot_paths)):
+    if not os.path.exists(path):
+        os.makedirs(path)
+    config_used = copy.copy(config)
+    config_used.spot_paths = config.spot_paths[i]
+    # set random seed for each package
+    torch.manual_seed(config_used.seed)
+    random.seed(config_used.seed)
+    np.random.seed(config_used.seed)
+    # record starting time
+    a = datetime.now()
+    print('Start time: ', a.strftime('%H:%M:%S'))
+    # reset GPU memory
+    torch.cuda.reset_peak_memory_stats()
+    # start training
+    print('Training start ')
+    model_train = Training(config_used)
+    # for each epoch, there will be a reminder in a new line
+    for epoch in range(config_used.epochs_stage):
+        print('Epoch:', epoch)
+        model_train.train(epoch)
+
+    # finish training
+    b = datetime.now()
+    print('End time: ', b.strftime('%H:%M:%S'))
+    c = b - a
+    minutes = divmod(c.seconds, 60)
+    # calculate time used in training
+    print('Time used: ', minutes[0], 'minutes', minutes[1], 'seconds')
+
+    print('Write embeddings')
+    model_train.write_embeddings()
+    # write result to output path
+    print('Training finished: ', datetime.now().strftime('%H:%M:%S'))
+    print("torch.cuda.max_memory_allocated: %fGB" % (torch.cuda.max_memory_allocated(0) / 1024 / 1024 / 1024))
+    # tell how much GPU memory used during training
+#### save path is "../output" by default, which you can change in train.py
+
+#####
+##### Clustering using latent embeddings and calculate ARI
+import sys
+from utils.utils import refine
+import matplotlib.pyplot as plt
+from sklearn.metrics.cluster import adjusted_rand_score
+
+ARIset=[]
+# sample ID 
+ID = section_id
+# output path where the result embeddings store
+base_path = '../output'
+
+# input .h5ad file
+file_name = "../data/DLPFC/"+section_id+"/"+section_id+".h5ad"
+adata = sc.read_h5ad(file_name)
+
+# result embeddings for the sample
+spots_embeddings = np.loadtxt(os.path.join(base_path, ID+'_embeddings.txt'))
+adata.obsm['embedding'] = np.float32(spots_embeddings)
+# set random seed for following clustering
+random_seed = 2022
+np.random.seed(random_seed)
+# set R path in 'R_HOME' and rpy2 path in 'R_USER'
+#### ATTENTION
+os.environ['R_HOME'] = "R_path_with_package_mclust" ### YOUR OWN PATH where 'R' is and YOU NEED TO INSTALL MCLUST IN 'R'
+os.environ['R_USER'] = 'python_path/python3.9/site-packages/rpy2' ### YOUR OWN PATH where 'ryp2' is
+# import required packges to use mclust in R and load results from R
+import rpy2.robjects as robjects
+
+robjects.r.library("mclust")
+
+import rpy2.robjects.numpy2ri
+
+rpy2.robjects.numpy2ri.activate()
+# set random seed for following clustering
+r_random_seed = robjects.r['set.seed']
+r_random_seed(random_seed)
+rmclust = robjects.r['Mclust']
+# set mclust parameters
+num_cluster = 7; modelNames="EEE" 
+# run mclust
+res = rmclust(rpy2.robjects.numpy2ri.numpy2rpy(adata.obsm['embedding']), num_cluster, modelNames) 
+# get labels from mclust results
+mclust_res = np.array(res[-2])
+# add predicted labels in adata and convert type to category
+adata.obs['mclust'] = mclust_res
+adata.obs['mclust'] = adata.obs['mclust'].astype('int')
+adata.obs['mclust'] = adata.obs['mclust'].astype('category')
+
+# drop na observation
+obs_df = adata.obs.dropna()
+# calculate ARI 
+ARI = adjusted_rand_score(obs_df['mclust'], obs_df["Ground Truth"])
+
+#############refine
+from scipy.spatial.distance import cdist
+# get coordinates for spots
+xarr=np.array([adata.obs['array_row'].tolist()]).T
+yarr=np.array([adata.obs['array_col'].tolist()]).T
+am = np.concatenate((xarr,yarr), 1)
+# calculate pairwise distance between spots, prepare for the next step
+arr = cdist(am, am)
+# refine predicted labels according to majority vote of neighbors
+refined_pred=refine(sample_id=adata.obs.index.tolist(), pred=adata.obs["mclust"].tolist(), dis=arr, shape="hexagon")
+adata.obs["refined_pred"]=refined_pred
+adata.obs["refined_pred"]=adata.obs["refined_pred"].astype('category')
+# calculate ARI using refined labels
+ARI_ref = adjusted_rand_score(obs_df['refined_pred'], obs_df["Ground Truth"])
+ARI_ref
+
+plt.rcParams["figure.figsize"] = (3, 3)
+   
+sc.pl.spatial(adata, color=["refined_pred", "Ground Truth"], title=['SGCAST(ARI=%.2f)' % ARI_ref,
+                                                                        "Manual annotation"]) 
+save_path = '../output'
+plt.savefig(os.path.join(save_path, f'{data_name}_domains.pdf'), bbox_inches='tight', dpi=300)
 ```
-
-Edit `Config.py` according to the data input (See Arguments section for more details).
+## Three steps
+### Step 1 : Edit `Config.py` according to the data input (See Arguments section for more details).
+### Step 2 : 
 
 In terminal, run
-
 ```
 python main.py
 ```
+The output will be saved in `../output` folder.
 
-The output will be saved in `./output` folder.
+### Step 3 : Edit `DLPFC_ARI_check.py` for your R path and ryp2 path
 
-+ #### SGCAST on DLPFC from 10x Visium.
-First, ``` cd /home/.../SGCAST/SGCAST```
-```python
-import os 
-from main import run
-import matplotlib.pyplot as plt
-from pathlib import Path
-import scanpy as sc
-
-data_path = "../data/DLPFC" #### to your path
-data_name = '151673' #### project name
-save_path = "../Results" #### save path
-n_domains = 7 ###### the number of spatial domains.
-
-deepen = run(save_path = save_path,
-	task = "Identify_Domain", #### DeepST includes two tasks, one is "Identify_Domain" and the other is "Integration"
-	pre_epochs = 800, ####  choose the number of training
-	epochs = 1000, #### choose the number of training
-	use_gpu = True)
-###### Read in 10x Visium data, or user can read in themselves.
-adata = deepen._get_adata(platform="Visium", data_path=data_path, data_name=data_name)
-
-
-
-
-###### Build graphs. "distType" includes "KDTree", "BallTree", "kneighbors_graph", "Radius", etc., see adj.py
-
-
-###### Enhanced data preprocessing
-
-
-###### Training models
-
-###### SGCAST outputs
-adata.obsm["DeepST_embed"] = deepst_embed
-
-###### Define the number of space domains, and the model can also be customized. If it is a model custom priori = False.
-adata = deepen._get_cluster_data(adata, n_domains=n_domains, priori = True)
-
-###### Spatial localization map of the spatial domain
-sc.pl.spatial(adata, color='DeepST_refine_domain', frameon = False, spot_size=150)
-plt.savefig(os.path.join(save_path, f'{data_name}_domains.pdf'), bbox_inches='tight', dpi=300)
+In terminal, run
 ```
+python DLPFC_ARI_check.py
+```
+The output plot will be saved in `../output` folder.
 
 
 ## Arguments
