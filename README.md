@@ -230,15 +230,19 @@ In terminal, run
 ```
 python main.py
 ```
-The output will be saved in `../output` folder.
+The embedding output will be saved in `../output` folder.
 
-### Step 3 : Edit `DLPFC_ARI_check.py` for your R path and ryp2 path
-
+### Step 3 : Edit `DLPFC_ARI_check.py` for your file path, R path and ryp2 path
+### Edit `high-res_downstream.py` for your file path, and louvain clustering parameters
 In terminal, run
 ```
 python DLPFC_ARI_check.py
 ```
-The output plot will be saved in `../output` folder.
+or for high resolution data, run
+```
+python high-res_downstream.py
+``` 
+The plot output plot will be saved in `../output` folder.
 
 
 ## Arguments
