@@ -1,4 +1,4 @@
-name: SGCAST
+name: sgcast_env
 channels:
   - pytorch
   - anaconda
