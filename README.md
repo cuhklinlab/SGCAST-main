@@ -25,7 +25,6 @@ cd SGCAST
 (Recommended) Using python virtual environment with [`conda`](https://anaconda.org/)
 
 ```bash
-cd /home/.../SGCAST-main  ### your own path
 conda env create -f environment.yaml
 conda activate sgcast_env
 ```
