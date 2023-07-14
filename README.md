@@ -17,12 +17,12 @@ SGCAST is implemented in the pytorch framework. Please run SGCAST on CUDA. SGCAS
 
 ### Installation
 #### Start by grabbing source codes:
-``bash
+```bash
 git clone https://github.com/cuhklinlab/SGCAST.git
 cd SGCAST
 ```
 
-#### (Recommended) Using python virtual environment with [`conda`](https://anaconda.org/)
+(Recommended) Using python virtual environment with [`conda`](https://anaconda.org/)
 
 ```bash
 cd /home/.../SGCAST-main  ### your own path
