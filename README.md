@@ -88,7 +88,7 @@ class Config(object): # we create a config class to include all paths and parame
         # in spot_paths, there can be multiple paths and SGCAST will run on the data one by one
         
         # Training config
-        self.nfeat = 50 #30
+        self.nfeat = 50 
         self.nhid = 50
         self.nemb = 50
         self.batch_size = 2000  
