@@ -33,7 +33,20 @@ conda activate sgcast_env
 
 
 
-## Running SGCAST
+## Running SGCAST on DLPFC from 10x Visium.
+``` cd /home/.../SGCAST/SGCAST```
+```python
+import os 
+from main import run
+import matplotlib.pyplot as plt
+from pathlib import Path
+import scanpy as sc
+
+data_path = "../data/DLPFC" #### to your path
+data_name = '151673' #### project name
+save_path = "../Results" #### save path
+n_domains = 7 ###### the number of spatial domains.
+```
 
 Edit `Config.py` according to the data input (See Arguments section for more details).
 
