@@ -6,10 +6,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 import sys
-sys.path.append('/SGCAST_path')
+sys.path.append('/home/.../SGCAST-main/SGCAST-main')
 from utils.utils import refine_high
 import gseapy
-base_path = '/SGCAST_path/output'
+base_path = '/home/.../SGCAST-main/SGCAST-main/output'
 ID ='Stereo-seq'
 
 file_name = "/datapath/"+ID+"/"+ID+".h5ad"
