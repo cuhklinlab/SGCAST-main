@@ -82,10 +82,8 @@ class Config(object): # we create a config class to include all paths and parame
         self.use_cuda = True
         self.threads = 1
         self.device = torch.device('cuda:0')
-        self.spot_paths = ["../data/DLPFC/"+section_id+"/"+section_id+".h5ad"] 
-        # in spot_paths, there can be multiple paths and SGCAST will run on the data one by one
-        # Training config
-        self.nfeat = 50 
+        self.spot_paths = ["../data/DLPFC/"+section_id+"/"+section_id+".h5ad"] # in spot_paths, there can be multiple paths and SGCAST will run on the data one by one
+        self.nfeat = 50 # Training config
         self.nhid = 50
         self.nemb = 50
         self.batch_size = 2000  
