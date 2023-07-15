@@ -146,9 +146,7 @@ from utils.utils import refine
 import matplotlib.pyplot as plt
 from sklearn.metrics.cluster import adjusted_rand_score
 
-ARIset=[]
-# sample ID 
-ID = section_id
+
 # output path where the result embeddings store
 base_path = './output'
 
@@ -157,7 +155,7 @@ file_name = "../data/DLPFC/"+section_id+"/"+section_id+".h5ad"
 adata = sc.read_h5ad(file_name)
 
 # result embeddings for the sample
-spots_embeddings = np.loadtxt(os.path.join(base_path, ID+'_embeddings.txt'))
+spots_embeddings = np.loadtxt(os.path.join(base_path, section_id+'_embeddings.txt'))
 adata.obsm['embedding'] = np.float32(spots_embeddings)
 # set random seed for following clustering
 random_seed = 2022
@@ -210,13 +208,13 @@ adata.obs["refined_pred"]=adata.obs["refined_pred"].astype('category')
 obs_df = adata.obs.dropna()
 ARI_ref = adjusted_rand_score(obs_df['refined_pred'], obs_df["Ground Truth"])
 ARI_ref
-
+# 0.5992191222387968
 plt.rcParams["figure.figsize"] = (3, 3)
    
 sc.pl.spatial(adata, color=["refined_pred", "Ground Truth"], title=['SGCAST(ARI=%.2f)' % ARI_ref,
                                                                         "Manual annotation"]) 
 save_path = './output'
-plt.savefig(os.path.join(save_path, f'{ID}_results.pdf'), bbox_inches='tight', dpi=300)
+plt.savefig(os.path.join(save_path, f'{section_id}_results.pdf'), bbox_inches='tight', dpi=300)
 ```
 ## Three steps when quick running in terminal
 ### Step 1 : Edit `Config.py` according to the data input (See Arguments section for more details).
