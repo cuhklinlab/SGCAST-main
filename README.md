@@ -34,7 +34,7 @@ conda activate sgcast_env
 
 
 ## Running SGCAST on DLPFC from 10x Visium.
-``` cd /home/.../SGCAST/SGCAST-main```
+``` cd /home/.../SGCAST-main/SGCAST-main```
 ```python
 import torch
 import os
