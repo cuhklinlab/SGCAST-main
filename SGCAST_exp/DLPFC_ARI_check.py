@@ -1,7 +1,7 @@
 # This file is used to do clustering on the embedding from DLPFC datasets (stored in '/SGCAST_path/output') and calculate ARI score afterwards.
 
 import sys
-sys.path.append('/SGCAST_path')
+sys.path.append('/home/.../SGCAST-main/SGCAST-main')
 from utils.utils import refine
 import os
 import scanpy as sc
@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics.cluster import adjusted_rand_score
 
 ARIset=[]
-base_path = '/SGCAST_path/output'
+base_path = '/home/.../SGCAST-main/SGCAST-main/output'
 IDs = ['151507','151508','151509','151510','151669','151670','151671','151672','151673','151674','151675','151676']
 for ID in IDs:
     file_name = "/data_path/"+ID+".h5ad" 
