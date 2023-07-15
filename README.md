@@ -25,7 +25,7 @@ cd SGCAST-main
 (Recommended) Using python virtual environment with [`conda`](https://anaconda.org/)
 
 ```bash
-conda env create -f environment.yaml
+conda env create -f environment.yaml # environment to reproduce the result and Tesla V100 gpu
 conda activate sgcast_env
 ```
 
@@ -82,11 +82,8 @@ class Config(object): # we create a config class to include all paths and parame
         self.use_cuda = True
         self.threads = 1
         self.device = torch.device('cuda:0')
-
-
         self.spot_paths = ["../data/DLPFC/"+section_id+"/"+section_id+".h5ad"] 
         # in spot_paths, there can be multiple paths and SGCAST will run on the data one by one
-        
         # Training config
         self.nfeat = 50 
         self.nhid = 50
@@ -106,41 +103,39 @@ class Config(object): # we create a config class to include all paths and parame
 
 config = Config()
 
-for i in range(len(config.spot_paths)):
-    if not os.path.exists(path):
-        os.makedirs(path)
-    config_used = copy.copy(config)
-    config_used.spot_paths = config.spot_paths[i]
-    # set random seed for each package
-    torch.manual_seed(config_used.seed)
-    random.seed(config_used.seed)
-    np.random.seed(config_used.seed)
-    # record starting time
-    a = datetime.now()
-    print('Start time: ', a.strftime('%H:%M:%S'))
-    # reset GPU memory
-    torch.cuda.reset_peak_memory_stats()
-    # start training
-    print('Training start ')
-    model_train = Training(config_used)
-    # for each epoch, there will be a reminder in a new line
-    for epoch in range(config_used.epochs_stage):
-        print('Epoch:', epoch)
-        model_train.train(epoch)
 
-    # finish training
-    b = datetime.now()
-    print('End time: ', b.strftime('%H:%M:%S'))
-    c = b - a
-    minutes = divmod(c.seconds, 60)
-    # calculate time used in training
-    print('Time used: ', minutes[0], 'minutes', minutes[1], 'seconds')
+config_used = copy.copy(config)
+config_used.spot_paths = config.spot_paths[0]
+# set random seed for each package
+torch.manual_seed(config_used.seed)
+random.seed(config_used.seed)
+np.random.seed(config_used.seed)
+# record starting time
+a = datetime.now()
+print('Start time: ', a.strftime('%H:%M:%S'))
+# reset GPU memory
+torch.cuda.reset_peak_memory_stats()
+# start training
+print('Training start ')
+model_train = Training(config_used)
+# for each epoch, there will be a reminder in a new line
+for epoch in range(config_used.epochs_stage):
+    print('Epoch:', epoch)
+    model_train.train(epoch)
 
-    print('Write embeddings')
-    model_train.write_embeddings()
-    # write result to output path
-    print('Training finished: ', datetime.now().strftime('%H:%M:%S'))
-    print("torch.cuda.max_memory_allocated: %fGB" % (torch.cuda.max_memory_allocated(0) / 1024 / 1024 / 1024))
+# finish training
+b = datetime.now()
+print('End time: ', b.strftime('%H:%M:%S'))
+c = b - a
+minutes = divmod(c.seconds, 60)
+# calculate time used in training
+print('Time used: ', minutes[0], 'minutes', minutes[1], 'seconds')
+
+print('Write embeddings')
+model_train.write_embeddings()
+# write result to output path
+print('Training finished: ', datetime.now().strftime('%H:%M:%S'))
+print("torch.cuda.max_memory_allocated: %fGB" % (torch.cuda.max_memory_allocated(0) / 1024 / 1024 / 1024))
     # tell how much GPU memory used during training
 #### save path is "./output" by default, which you can change in train.py
 
@@ -155,7 +150,7 @@ ARIset=[]
 # sample ID 
 ID = section_id
 # output path where the result embeddings store
-base_path = '../output'
+base_path = './output'
 
 # input .h5ad file
 file_name = "../data/DLPFC/"+section_id+"/"+section_id+".h5ad"
@@ -212,6 +207,7 @@ refined_pred=refine(sample_id=adata.obs.index.tolist(), pred=adata.obs["mclust"]
 adata.obs["refined_pred"]=refined_pred
 adata.obs["refined_pred"]=adata.obs["refined_pred"].astype('category')
 # calculate ARI using refined labels
+obs_df = adata.obs.dropna()
 ARI_ref = adjusted_rand_score(obs_df['refined_pred'], obs_df["Ground Truth"])
 ARI_ref
 
@@ -220,7 +216,7 @@ plt.rcParams["figure.figsize"] = (3, 3)
 sc.pl.spatial(adata, color=["refined_pred", "Ground Truth"], title=['SGCAST(ARI=%.2f)' % ARI_ref,
                                                                         "Manual annotation"]) 
 save_path = './output'
-plt.savefig(os.path.join(save_path, f'{data_name}_domains.pdf'), bbox_inches='tight', dpi=300)
+plt.savefig(os.path.join(save_path, f'{ID}_results.pdf'), bbox_inches='tight', dpi=300)
 ```
 ## Three steps when quick running in terminal
 ### Step 1 : Edit `Config.py` according to the data input (See Arguments section for more details).
