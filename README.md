@@ -29,7 +29,7 @@ conda env create -f environment.yaml # To reproduce the result, use the environm
 conda activate sgcast_env
 ```
 
-## Install package mclust 5.4.10 in R (used for the mclust clustering)
+### Install package mclust 5.4.10 in R (used for the mclust clustering)
 
 
 
