@@ -263,8 +263,8 @@ The script `Config.py` indicate the arguments for SGCAST, which needs to be modi
 
 The configuration we used in our paper can be found in [link](https://github.com/cuhklinlab/SGCAST/blob/main/SGCAST-main/Config.py).
 
-## Other tools
-
+## Compare with other tools
+Tools include :
 * [BayesSpace](https://github.com/edward130603/BayesSpace)
 * [SpatialPCA](https://github.com/shangll123/SpatialPCA)
 * [BASS](https://github.com/zhengli09/BASS)
