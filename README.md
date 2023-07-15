@@ -25,7 +25,7 @@ cd SGCAST-main
 (Recommended) Using python virtual environment with [`conda`](https://anaconda.org/)
 
 ```bash
-conda env create -f environment.yaml # environment to reproduce the result and Tesla V100 gpu
+conda env create -f environment.yaml # To reproduce the result, use the environment and train on Tesla V100 GPU
 conda activate sgcast_env
 ```
 
