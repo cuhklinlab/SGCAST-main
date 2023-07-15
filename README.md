@@ -263,6 +263,17 @@ The script `Config.py` indicate the arguments for SGCAST, which needs to be modi
 
 The configuration we used in our paper can be found in [link](https://github.com/cuhklinlab/SGCAST/blob/main/SGCAST-main/Config.py).
 
+## Other tools
+
+* [BayesSpace](https://github.com/edward130603/BayesSpace)
+* [SpatialPCA](https://github.com/shangll123/SpatialPCA)
+* [BASS](https://github.com/zhengli09/BASS)
+* [STAGATE](https://github.com/zhanglabtools/STAGATE)
+* [DeepST](https://github.com/JiangBioLab/DeepST/tree/main)
+* [stLearn](https://github.com/BiomedicalMachineLearning/stLearn)
+* [SpaGCN](https://github.com/jianhuupenn/SpaGCN)
+* [SEDR](https://github.com/JinmiaoChenLab/SEDR/)
+  
 ### Download data
 |      Platform      |       Tissue     |    SampleID   |
 |:----------------:|:----------------:|:------------:|
