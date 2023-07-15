@@ -7,7 +7,7 @@ SGCAST is a simple and efficient auto-encoder framework to identify spatial doma
 
 ## Tutorials
 
-+ Data preprocessing tutorial is demonstrated here: [link](https://github.com/cuhklinlab/SGCAST/blob/main/data_preprocess.ipynb)
++ Tutorial for various data preprocessing is demonstrated here: [link](https://github.com/cuhklinlab/SGCAST/blob/main/data_preprocess.ipynb)
 + Tutorial for clustering: 
     + DLPFC dataset [link](https://github.com/cuhklinlab/SGCAST/blob/main/DLPFC_clustering.ipynb)
     + high-resolution data [link](https://github.com/cuhklinlab/SGCAST/blob/main/high-res_clustering.ipynb)
@@ -253,10 +253,10 @@ The script `Config.py` indicate the arguments for SGCAST, which needs to be modi
 + `batch_size`: Batch size (set as 2000 by default)
 + `lr_start`: Initial learning rate (set as 0.2 by default)
 + `lr_decay_epoch`: Number of epochs learning rate decay
-+ `nfeat`: Dimension of input of auto-encoder
++ `nfeat`: Dimension of input (number of PCs) of auto-encoder
 + `nhid`: Dimension of hidden layer of auto-encoder
 + `nemb`: Dimension of latent embedding of auto-encoder
-+ `seed`: seed to be used
++ `seed`: random seed to be used
 + `train_conexp_ratio`: tau for expression layer in training 
 + `train_conspa_ratio`: tau for spatial layer in training 
 + `train_conexp_ratio`: tau for expression layer when writing results
