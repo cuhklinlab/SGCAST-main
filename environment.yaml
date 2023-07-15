@@ -473,8 +473,6 @@ dependencies:
     - google-pasta==0.2.0
     - gseapy==1.0.0
     - igraph==0.9.11
-    - keras==2.9.0
-    - keras-preprocessing==1.1.2
     - leidenalg==0.8.10
     - libclang==14.0.6
     - louvain==0.7.1
