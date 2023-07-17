@@ -23,7 +23,7 @@ class Config(object):
              "../data/DLPFC/151674/151674.h5ad",
              "../data/DLPFC/151675/151675.h5ad",
              "../data/DLPFC/151676/151676.h5ad"]
-            # 151XXX.h5ad are processed files. The tutorial can be found in either "Tutorial" sectiono or "Running SGCAST on DLPFC from 10x Visium" section.
+            # 151XXX.h5ad are processed files. The tutorial can be found in either "Tutorial" section or "Running SGCAST on DLPFC from 10x Visium" section.
             self.train_conexp_ratio = 0.07 
             self.train_conspa_ratio = 0.07
             self.test_conexp_ratio = 0.07 
