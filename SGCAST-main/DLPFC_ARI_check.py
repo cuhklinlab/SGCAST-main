@@ -14,7 +14,7 @@ ARIset=[]
 base_path = './output'
 IDs = ['151507','151508','151509','151510','151669','151670','151671','151672','151673','151674','151675','151676']
 for ID in IDs:
-    file_name = "/data_path/"+ID+".h5ad" 
+    file_name = "../data/DLPFC/"+ID+"/"+ID+".h5ad" 
     adata = sc.read_h5ad(file_name)
 
     spots_embeddings = np.loadtxt(os.path.join(base_path, ID+'_embeddings.txt'))
