@@ -6,13 +6,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 import sys
-sys.path.append('/home/.../SGCAST-main/SGCAST-main')
+# sys.path.append('/home/.../SGCAST-main/SGCAST-main')
 from utils.utils import refine_high
 import gseapy
-base_path = '/home/.../SGCAST-main/SGCAST-main/output'
+base_path = './output'
 ID ='Stereo-seq'
 
-file_name = "/datapath/"+ID+"/"+ID+".h5ad"
+file_name = "../data/"+ID+"/"+ID+".h5ad"
 spots_embeddings = np.loadtxt(os.path.join(base_path, ID + '_embeddings.txt'))
 stage = ID
 adata = sc.read_h5ad(file_name)
