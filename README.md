@@ -283,3 +283,4 @@ Tools include :
 
 
 ## Reference
+Li, J., Wang, J., & Lin, Z. (2024). SGCAST: symmetric graph convolutional auto-encoder for scalable and accurate study of spatial transcriptomics. Briefings in Bioinformatics, 25(1), bbad490.
